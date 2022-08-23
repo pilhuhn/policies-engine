@@ -116,6 +116,28 @@
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
     </dependency>
 
+    <!-- tracing -->
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-opentelemetry</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-opentelemetry-exporter-otlp</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-extension-trace-propagators</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry.instrumentation</groupId>
+        <artifactId>opentelemetry-jdbc</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.opentelemetry</groupId>
+        <artifactId>opentelemetry-extension-annotations</artifactId>
+    </dependency>
+
     <!-- Insights -->
     <dependency>
       <groupId>com.redhat.cloud.common</groupId>

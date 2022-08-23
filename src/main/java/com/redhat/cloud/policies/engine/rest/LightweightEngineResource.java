@@ -1,6 +1,9 @@
 package com.redhat.cloud.policies.engine.rest;
 
 import com.redhat.cloud.policies.engine.condition.ConditionParser;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.extension.annotations.WithSpan;
 import io.quarkus.logging.Log;
 import io.vertx.core.json.JsonObject;
 
@@ -21,12 +24,17 @@ public class LightweightEngineResource {
     @PUT
     @Path("/validate")
     @Consumes(TEXT_PLAIN)
+    @WithSpan
     public Response validateCondition(@NotNull String condition) {
         try {
             ConditionParser.validate(condition);
             return Response.ok().build();
         } catch (Exception e) {
+            Span span = Span.current();
             Log.debugf(e, "Validation failed for condition %s", condition);
+            span.recordException(e);
+            span.setAttribute("condition", condition);
+            span.setStatus(StatusCode.ERROR);
             JsonObject errorMessage = new JsonObject(Map.of("errorMsg", e.getMessage()));
             return Response.status(BAD_REQUEST).entity(errorMessage).build();
         }
